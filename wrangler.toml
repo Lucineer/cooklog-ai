@@ -1,0 +1,13 @@
+name = "cooklog-ai"
+main = "src/worker.ts"
+compatibility_date = "2024-05-06"
+
+[vars]
+DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
+
+[[kv_namespaces]]
+binding = "COOKLOG_KV"
+id = "your-kv-namespace-id"
+
+[site]
+bucket = "./public"
