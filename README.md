@@ -77,3 +77,7 @@ Built with TypeScript, Cloudflare Workers, KV storage, and a single-page HTML ap
 ---
 
 Built with warmth. Powered by AI.
+
+## License
+
+MIT — Built with ❤️ by [Superinstance](https://github.com/superinstance) & [Lucineer](https://github.com/Lucineer) (DiGennaro et al.)
