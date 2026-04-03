@@ -10,5 +10,3 @@ DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 binding = "COOKLOG_KV"
 id = "472a57710b5142339283af0ae5abf629"
 
-[site]
-bucket = "./public"
