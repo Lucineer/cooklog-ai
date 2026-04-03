@@ -1,3 +1,4 @@
+account_id = "2bd99d5b13b2186382cd3dc995b0bb18"
 name = "cooklog-ai"
 main = "src/worker.ts"
 compatibility_date = "2024-05-06"
@@ -7,7 +8,7 @@ DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 
 [[kv_namespaces]]
 binding = "COOKLOG_KV"
-id = "your-kv-namespace-id"
+id = "472a57710b5142339283af0ae5abf629"
 
 [site]
 bucket = "./public"
