@@ -207,6 +207,12 @@ export default {
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     });
   }
+
+  if (path === '/health') {
+    return new Response(JSON.stringify({ status: 'ok', repo: 'cooklog-ai', timestamp: Date.now() }), {
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+    });
+  }
     const method = request.method;
 
     // Handle CORS preflight
