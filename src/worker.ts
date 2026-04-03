@@ -195,11 +195,6 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    if (path === '/health') {
-      return new Response(JSON.stringify({ status: 'ok', repo: 'cooklog-ai', timestamp: Date.now() }), {
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-      });
-    }
     const path = url.pathname;
 
   if (path === '/health') {
@@ -208,11 +203,8 @@ export default {
     });
   }
 
-  if (path === '/health') {
-    return new Response(JSON.stringify({ status: 'ok', repo: 'cooklog-ai', timestamp: Date.now() }), {
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-    });
-  }
+
+
     const method = request.method;
 
     // Handle CORS preflight
