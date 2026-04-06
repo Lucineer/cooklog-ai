@@ -182,7 +182,7 @@ function landingPage(): Response {
     <a href="/app.html" class="cta">Open CookLog</a>
     <div class="footer">Built with warmth. Powered by AI.</div>
   </div>
-</body>
+<div style="text-align:center;padding:24px;color:#475569;font-size:.75rem"><a href="https://the-fleet.casey-digennaro.workers.dev" style="color:#64748b">⚓ The Fleet</a> · <a href="https://cocapn.ai" style="color:#64748b">Cocapn</a></div></body>
 </html>`;
   return new Response(html, {
     headers: { "Content-Type": "text/html" },
