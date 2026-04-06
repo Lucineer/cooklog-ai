@@ -202,6 +202,7 @@ export default {
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     });
   }
+    if (path === '/vessel.json') { try { const vj = await import('./vessel.json', { with: { type: 'json' } }); return jsonResponse(vj.default || vj); } catch { return jsonResponse({}); } }
 
 
 
