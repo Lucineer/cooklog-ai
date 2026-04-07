@@ -4,108 +4,82 @@
 
 <h1 align="center">cooklog-ai</h1>
 
-<p align="center">Recipe and meal planning vessel.</p>
+<p align="center">A private cooking assistant you host. No accounts. No third-party data.</p>
 
 <p align="center">
   <a href="#quick-start">Quick Start</a> ·
   <a href="#features">Features</a> ·
+  <a href="#limitation">Limitation</a> ·
   <a href="#the-fleet">The Fleet</a> ·
+  <a href="https://cooklog-ai.casey-digennaro.workers.dev">Live Demo</a> ·
   <a href="https://github.com/Lucineer/cooklog-ai/issues">Issues</a>
 </p>
 
 ---
 
+You search for a recipe and get a long story and several pop-ups. This agent provides cooking assistance without the distraction.
+
+cooklog-ai generates recipes, scales them, plans meals, and tracks your dietary preferences. You host it. Your data and preferences stay in your own repository.
+
+---
+
+### Why this exists
+Many cooking tools are built as services. This one is structured as a single application you can fork and deploy yourself. You control it. Over time, it builds context specific to your kitchen and habits.
+
+This is an open-source agent designed for long-term, private use.
+
+---
+
 **Powered by [Capitaine](https://github.com/Lucineer/capitaine) · [Cocapn](https://github.com/Lucineer/cocapn)**
 
-The repo IS the agent. cooklog-ai is a cocapn vessel — a self-improving repository that runs on Cloudflare Workers, thinks with LLMs, and coordinates with the fleet through git.
+This repository contains an autonomous Cocapn vessel that runs on Cloudflare Workers. It uses LLMs for reasoning, stores memory locally, and can optionally coordinate with other fleet agents.
 
 ## Quick Start
 
-```bash
-# Fork and deploy
-gh repo fork Lucineer/cooklog-ai --clone
-cd cooklog-ai
-npx wrangler login
-echo "your-github-token" | npx wrangler secret put GITHUB_TOKEN
-echo "your-llm-key" | npx wrangler secret put DEEPSEEK_API_KEY
-npx wrangler deploy
-```
+1.  Fork this repository.
+2.  Clone your fork and navigate into it.
+3.  Set up the required API keys as secrets with Wrangler:
+    ```bash
+    npx wrangler secret put GITHUB_TOKEN
+    npx wrangler secret put DEEPSEEK_API_KEY # or your preferred LLM provider key
+    ```
+4.  Deploy:
+    ```bash
+    npx wrangler deploy
+    ```
 
-That's it. The vessel is alive.
+Your private instance will be live at your `.workers.dev` subdomain.
 
 ## Features
 
-- **BYOK v2** — Zero keys in code. All API keys via Cloudflare Secrets Store.
-- **Multi-model** — DeepSeek, SiliconFlow, DeepInfra, Moonshot, z.ai, local models.
-- **Session memory** — Conversations persist and build context over time.
-- **PII safety** — Automatic detection and dehydration of sensitive data.
-- **Rate limiting** — Guest tokens per IP with configurable limits.
-- **Health checks** — Standard `/health` endpoint on all vessels.
-- **Fleet coordination** — CRP-39 protocol for trust, bonds, and events.
+-   **Recipe Management:** Generate, scale, adjust, and convert units for recipes.
+-   **Contextual Memory:** Stores your cooking history, preferences, and adjustments in your repository.
+-   **Meal Planning:** Creates plans that adapt to your schedule and past meals.
+-   **Dietary Rules:** Filters for allergies and suggests ingredient substitutions.
+-   **Multi-Model Support:** Configure it to use various LLM APIs or local models via BYOK.
+-   **Data Control:** All persistent state is stored in your own GitHub repository; no external accounts.
+
+## Limitation
+
+The assistant's long-term memory and context-building require your cooking data to be structured and committed to the repository. Initial setup involves configuring secrets and understanding the deployment process.
 
 ## Architecture
 
-Single-file Cloudflare Worker. Zero runtime dependencies. Inline HTML serving.
+A single Cloudflare Worker (`src/worker.ts`) with a minimal cold start. Core logic is separated into modular libraries for key management, memory, and dietary rules.
 
 ```
-src/
-  worker.ts      # The hull — serves users, runs heartbeats
-lib/
-  byok.ts        # Multi-model routing (BYOK v2)
-  ...
+src/worker.ts  # Main application and UI
+lib/byok.ts    # Multi-LLM provider routing
+lib/memory.ts  # Session and long-term context storage
+lib/diet.ts    # Dietary rule and substitution engine
 ```
 
 ## The Fleet
 
-cooklog-ai is one of 40+ autonomous vessels in the Lucineer fleet. Each vessel is a different domain of one intelligence.
+cooklog-ai is part of the Cocapn Fleet, a network of specialized, interoperable agents. It can cooperate with other vessels, like a grocery lister or nutrition tracker, when you enable the connection.
 
+---
 
-<details>
-<summary><strong>⚓ The Fleet</strong></summary>
-
-**Flagship vessels**
-
-- [cocapn.ai](https://github.com/Lucineer/capitaine)
-- [personallog.ai](https://github.com/Lucineer/personallog-ai)
-- [businesslog.ai](https://github.com/Lucineer/businesslog-ai)
-- [studylog.ai](https://github.com/Lucineer/studylog-ai)
-- [makerlog.ai](https://github.com/Lucineer/makerlog-ai)
-- [playerlog.ai](https://github.com/Lucineer/playerlog-ai)
-- [dmlog.ai](https://github.com/Lucineer/dmlog-ai)
-- [reallog.ai](https://github.com/Lucineer/reallog-ai)
-- [deckboss.ai](https://github.com/Lucineer/deckboss-ai)
-
-**Fleet services**
-
-- [Fleet Catalog](https://github.com/Lucineer/capitaine/blob/master/docs/fleet/FLEET.md)
-- [Git Agent (full)](https://github.com/Lucineer/git-agent)
-- [Cocapn Lite (minimal)](https://github.com/Lucineer/cocapn-lite)
-- [Fleet Orchestrator](https://github.com/Lucineer/fleet-orchestrator)
-- [Dead Reckoning Engine](https://github.com/Lucineer/dead-reckoning-engine)
-- [Dream Engine](https://github.com/Lucineer/dream-engine)
-- [Seed UI (5 layers)](https://github.com/Lucineer/seed-ui)
-
-**For power users**
-
-- [Cocapn Lite (tabula rasa)](https://github.com/Lucineer/cocapn-lite)
-- [Cocapn (core platform)](https://github.com/Lucineer/cocapn)
-- [ZeroClaw (framework)](https://github.com/Lucineer/zeroclaw)
-
-[View all 106 repos →](https://github.com/orgs/Lucineer/repositories)
-[Fleet manifest →](https://github.com/Lucineer/capitaine/blob/master/docs/fleet/FLEET.md)
-
-</details>
-
-
-## Philosophy
-
-> The repo is the agent. The agent is the repo. Intelligence crystallizes from fluid (LLM calls) to solid (code). The vessel becomes faster and cheaper as it becomes smarter.
-
-- **Fork-first** — Power users fork and customize. Casual users visit the domain.
-- **Pay-for-convenience** — We save you costs through bulk inference, not markups.
-- **Git as coordination** — Agents compete via PRs, not chat.
-- **Soft actualization** — Vessels evolve gently based on usage, not hard updates.
-
-## License
-
-MIT · Superinstance & Lucineer (DiGennaro et al.)
+<div align="center">
+  <sub>Part of the <a href="https://the-fleet.casey-digennaro.workers.dev">Cocapn Fleet</a>. Built by <a href="https://superinstance.com">Superinstance</a> & <a href="https://lucineer.com">Lucineer (DiGennaro et al.)</a>.</sub>
+</div>
