@@ -4,82 +4,90 @@
 
 <h1 align="center">cooklog-ai</h1>
 
-<p align="center">A private cooking assistant you host. No accounts. No third-party data.</p>
+<p align="center">A self-hosted cooking assistant. No accounts or third-party data required.</p>
 
 <p align="center">
   <a href="#quick-start">Quick Start</a> ·
   <a href="#features">Features</a> ·
-  <a href="#limitation">Limitation</a> ·
+  <a href="#limitations">Limitations</a> ·
   <a href="#the-fleet">The Fleet</a> ·
-  <a href="https://cooklog-ai.casey-digennaro.workers.dev">Live Demo</a> ·
+  <a href="https://cooklog-ai.casey-digennaro.workers.dev">Demo</a> ·
   <a href="https://github.com/Lucineer/cooklog-ai/issues">Issues</a>
 </p>
 
 ---
 
-You search for a recipe and get a long story and several pop-ups. This agent provides cooking assistance without the distraction.
+You are in your kitchen. You have ingredients and a question. You search online.
 
-cooklog-ai generates recipes, scales them, plans meals, and tracks your dietary preferences. You host it. Your data and preferences stay in your own repository.
+You find cookie banners, auto-play videos, and a blog post. The cooking instructions remain unclear.
+
+This tool helps with that.
+
+cooklog-ai provides direct answers for cooking. It learns from your adjustments and stores all data in your repository. You run it and control the information.
 
 ---
 
 ### Why this exists
-Many cooking tools are built as services. This one is structured as a single application you can fork and deploy yourself. You control it. Over time, it builds context specific to your kitchen and habits.
+Most cooking tools are built as services requiring accounts and tracking. They don't adapt to your specific kitchen, preferences, or schedule.
 
-This is an open-source agent designed for long-term, private use.
+This is a tool, not a service. You fork it, deploy it, and it runs independently. It improves with use, and no one can alter its functionality or access your data without your consent.
+
+It is open source, MIT licensed, and runs on Cloudflare Workers.
+
+---
+
+### How it works
+This is a dedicated Cocapn Fleet agent, not a generic LLM wrapper:
+- It avoids long preambles in recipe responses
+- It remembers adjustments you make to recipes over time
+- All memory and preferences are stored only in your repository
+- It adapts to your units, dietary restrictions, and schedule
+- It can optionally coordinate with other Fleet agents
+
+There are no paywalls, feature gates, or changing terms of service.
 
 ---
 
 **Powered by [Capitaine](https://github.com/Lucineer/capitaine) · [Cocapn](https://github.com/Lucineer/cocapn)**
 
-This repository contains an autonomous Cocapn vessel that runs on Cloudflare Workers. It uses LLMs for reasoning, stores memory locally, and can optionally coordinate with other fleet agents.
+This repository contains an autonomous Cocapn vessel. It uses LLMs for reasoning, stores memory locally, and can optionally coordinate with other fleet agents.
 
 ## Quick Start
 
-1.  Fork this repository.
-2.  Clone your fork and navigate into it.
-3.  Set up the required API keys as secrets with Wrangler:
+1.  **Fork this repository** on GitHub.
+2.  Clone your fork and navigate into the directory.
+3.  Set required secrets:
     ```bash
     npx wrangler secret put GITHUB_TOKEN
-    npx wrangler secret put DEEPSEEK_API_KEY # or your preferred LLM provider key
+    npx wrangler secret put DEEPSEEK_API_KEY
     ```
 4.  Deploy:
     ```bash
     npx wrangler deploy
     ```
 
-Your private instance will be live at your `.workers.dev` subdomain.
+Your instance will be available at your `.workers.dev` subdomain.
 
 ## Features
 
--   **Recipe Management:** Generate, scale, adjust, and convert units for recipes.
--   **Contextual Memory:** Stores your cooking history, preferences, and adjustments in your repository.
--   **Meal Planning:** Creates plans that adapt to your schedule and past meals.
+-   **Recipe Management:** Generate, scale, and adjust recipes with unit conversion.
+-   **Contextual Memory:** Stores cooking history and preferences in your repository.
+-   **Meal Planning:** Creates plans adapted to your schedule and past meals.
 -   **Dietary Rules:** Filters for allergies and suggests ingredient substitutions.
--   **Multi-Model Support:** Configure it to use various LLM APIs or local models via BYOK.
--   **Data Control:** All persistent state is stored in your own GitHub repository; no external accounts.
+-   **Multi-Model Support:** Configure with various LLM APIs or local models.
+-   **Full Data Control:** All persistent state resides in your GitHub repository.
 
-## Limitation
-
-The assistant's long-term memory and context-building require your cooking data to be structured and committed to the repository. Initial setup involves configuring secrets and understanding the deployment process.
-
-## Architecture
-
-A single Cloudflare Worker (`src/worker.ts`) with a minimal cold start. Core logic is separated into modular libraries for key management, memory, and dietary rules.
-
-```
-src/worker.ts  # Main application and UI
-lib/byok.ts    # Multi-LLM provider routing
-lib/memory.ts  # Session and long-term context storage
-lib/diet.ts    # Dietary rule and substitution engine
-```
+## Limitations
+This assistant builds long-term context from your cooking logs stored as files in your repository. It does not currently offer real-time synchronization across devices or a dedicated mobile interface. You interact with it via its web interface or API.
 
 ## The Fleet
+This agent is part of the Cocapn Fleet—an open-source agent runtime and fleet protocol. It can operate independently or in coordination with other agents you run.
 
-cooklog-ai is part of the Cocapn Fleet, a network of specialized, interoperable agents. It can cooperate with other vessels, like a grocery lister or nutrition tracker, when you enable the connection.
+<div align="center">
+  <a href="https://the-fleet.casey-digennaro.workers.dev">Explore the Fleet</a> ·
+  <a href="https://cocapn.ai">Learn about Cocapn</a>
+</div>
 
 ---
 
-<div align="center">
-  <sub>Part of the <a href="https://the-fleet.casey-digennaro.workers.dev">Cocapn Fleet</a>. Built by <a href="https://superinstance.com">Superinstance</a> & <a href="https://lucineer.com">Lucineer (DiGennaro et al.)</a>.</sub>
-</div>
+Attribution: Superinstance & Lucineer (DiGennaro et al.)
